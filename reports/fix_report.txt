@@ -1,0 +1,33 @@
+==============================
+FIX Message Analysis Report
+Generated: 2025-11-14T17:55:59.505417802
+==============================
+
+Total FIX messages: 10001
+Unique Symbols: 20
+
+Top Symbols by Trade Volume:
+1. META — 237,454 shares — Avg Price: 252.72
+2. BAC — 234,194 shares — Avg Price: 280.50
+3. BTCUSD — 226,470 shares — Avg Price: 246.83
+4. TSLA — 221,751 shares — Avg Price: 253.00
+5. ESZ5 — 220,264 shares — Avg Price: 250.18
+
+Side Breakdown:
+- BUY  : 17.7%
+- SELL : 17.8%
+- MISSING : 64.5%
+
+
+Message Types:
+- D : 2215
+- 8 : 2212
+- X : 1337
+- 0 : 1134
+- W : 886
+- G : 696
+- F : 638
+- A : 320
+- 5 : 242
+- 1 : 206
+- 2 : 115

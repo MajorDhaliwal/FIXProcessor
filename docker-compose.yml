@@ -1,0 +1,95 @@
+services:
+  redis:
+    image: redis:7
+    ports:
+      - "6379:6379"
+    networks:
+      - fixnet
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+
+  postgres:
+    image: postgres:15
+    environment:
+      POSTGRES_DB: fixdb
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    networks:
+      - fixnet
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+
+  pgadmin:
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@local.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+    ports:
+      - "5050:80"
+    depends_on:
+      - postgres
+    volumes:
+      - ./pgadmin/servers.json:/pgadmin4/servers.json 
+    networks:
+      - fixnet
+  
+  fix-producer:
+    build: ./fix-producer
+    depends_on:
+      redis:
+        condition: service_healthy
+    environment:
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+    volumes:
+      - ./logs:/logs
+    command: ["/logs/fix_synthetic_2025-10-18_10000.log"]
+    networks:
+      - fixnet
+
+  fix-api:
+    build: ./fix-api
+    depends_on:
+      redis:
+        condition: service_healthy
+      postgres:
+        condition: service_healthy
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/fixdb
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: postgres
+      SPRING_REDIS_HOST: redis
+      SPRING_REDIS_PORT: 6379
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./reports:/reports    
+    networks:
+      - fixnet
+
+  fix-report:
+    build: ./fix-report
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      DB_URL: jdbc:postgresql://postgres:5432/fixdb
+      DB_USER: postgres
+      DB_PASS: postgres
+    volumes:
+      - ./reports:/reports
+    networks:
+      - fixnet
+
+
+networks:
+  fixnet:
+
