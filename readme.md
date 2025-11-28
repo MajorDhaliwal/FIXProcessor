@@ -8,7 +8,6 @@ This project demonstrates a modern distributed event-driven architecture using:
 - **Redis Streams** (Producer + Consumer)
 - **PostgreSQL Database**
 - **Docker Compose Orchestration**
-- **Modular Maven Build**
 - **Automated FIX Report Generation**
 - **pgAdmin Database UI**
 
