@@ -81,7 +81,7 @@ public class FixStreamConsumer implements CommandLineRunner {
         try {
             if (Files.exists(LAST_ID_FILE)) {
                 String id = Files.readString(LAST_ID_FILE).trim();
-                System.out.println("📖 Resuming from stream ID: " + id);
+                System.out.println("Resuming from stream ID: " + id);
                 return new StreamEntryID(id);
             }
         } catch (IOException e) {
