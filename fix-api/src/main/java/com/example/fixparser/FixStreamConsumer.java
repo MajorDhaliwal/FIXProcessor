@@ -85,9 +85,9 @@ public class FixStreamConsumer implements CommandLineRunner {
                 return new StreamEntryID(id);
             }
         } catch (IOException e) {
-            System.err.println("⚠️ Failed to read last stream ID: " + e.getMessage());
+            System.err.println(" Failed to read last stream ID: " + e.getMessage());
         }
-        System.out.println("🆕 No previous ID found, starting from 0-0.");
+        System.out.println("No previous ID found, starting from 0-0.");
         return new StreamEntryID("0-0");
     }
 
@@ -97,7 +97,7 @@ public class FixStreamConsumer implements CommandLineRunner {
             Files.writeString(LAST_ID_FILE, id.toString(),
                     StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING);
         } catch (IOException e) {
-            System.err.println("⚠️ Could not save last stream ID: " + e.getMessage());
+            System.err.println("Could not save last stream ID: " + e.getMessage());
         }
     }
 
@@ -128,6 +128,6 @@ public class FixStreamConsumer implements CommandLineRunner {
                 .build();
 
         repository.save(entity);
-        System.out.println("💾 Saved FIX message: " + entity.getSymbol() + " " + entity.getSide());
+        System.out.println("Saved FIX message: " + entity.getSymbol() + " " + entity.getSide());
     }
 }
